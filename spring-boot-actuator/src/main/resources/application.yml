@@ -1,0 +1,35 @@
+# 项目
+server:
+  port: 8080
+  servlet:
+    context-path: /demo
+# 安全访问
+spring:
+  security:
+    user:
+      name: sssszzzz9526
+      password: 199526
+      roles:
+        - 'fyz'
+# 监控
+management:
+  # 端点接口(和项目端口区分)
+  server:
+    port: 8090
+    servlet:
+      context-path: /sys
+  # 端点
+  endpoint:
+    # 健康
+    health:
+      show-details: always
+      roles:
+        - 'feng'
+    # 关闭
+    shutdown:
+      enabled: true
+  # 端点暴露内容，默认["health","info"]，设置"*"代表暴露所有可访问的端点
+  endpoints:
+    web:
+      exposure:
+        include: '*'
