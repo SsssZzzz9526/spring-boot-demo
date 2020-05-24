@@ -1,0 +1,8 @@
+application:
+  name: dev-@artifactId@
+  version: dev-@version@
+
+developer:
+  name: dev-SsssZzzz9526
+  website: dev-https://github.com/SsssZzzz9526/spring-boot-demo
+  qq: dev-139199502

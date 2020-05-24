@@ -1,0 +1,8 @@
+application:
+  name: prod-@artifactId@
+  version: prod-@version@
+
+developer:
+  name: prod-SsssZzzz9526
+  website: prod-https://github.com/SsssZzzz9526/spring-boot-demo
+  qq: prod-139199502
