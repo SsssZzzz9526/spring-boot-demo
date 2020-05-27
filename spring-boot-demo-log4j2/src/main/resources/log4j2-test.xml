@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="OFF" monitorInterval="60">
+    <Properties>
+        <!--   日志输出格式     -->
+        <Property name="LOG_PATTERN">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n
+        </Property>
+    </Properties>
+
+    <Appenders>
+        <!-- 控制台输出 -->
+        <Console name="CONSOLE" target="SYSTEM_OUT" follow="true">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${LOG_PATTERN}" charset="UTF-8"/>
+        </Console>
+
+        <!-- 适合临时测试用 -->
+        <!-- FileAppender  输出结果到指定文件 -->
+        <!-- 这个appender用来调试，append为false的属性，每次运行都会清空上次的日志，查起来也方便，这个和输出到控制台就一个效果了 -->
+        <File name="TEST_CONSOLE" fileName="logs/info.log" append="false">
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${LOG_PATTERN}" charset="UTF-8"/>
+        </File>
+    </Appenders>
+
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="CONSOLE" />
+            <AppenderRef ref="TEST_CONSOLE" />
+        </Root>
+    </Loggers>
+</Configuration>

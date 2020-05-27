@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="OFF" monitorInterval="60">
+    <Properties>
+        <!--   日志输出格式     -->
+        <Property name="LOG_PATTERN">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n
+        </Property>
+        <!--    INFO文件滚动格式    -->
+        <Property name="INFO_FILE_PATTERN">
+            logs/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log
+        </Property>
+        <!--    ERROR文件滚动格式    -->
+        <Property name="ERROR_FILE_PATTERN">
+            logs/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log
+        </Property>
+        <!-- 文件切分大小 -->
+        <Property name="SPLIT_SIZE">
+            20MB
+        </Property>
+        <!-- 文件保存个数(结合时间(天)滚动策略时等于文件保留天数) -->
+        <Property name="ROLLING_COUNT">
+            30
+        </Property>
+    </Properties>
+
+    <Appenders>
+        <!-- 滚动随机访问的文件输出 -->
+        <!-- INFO级别 -->
+        <RollingRandomAccessFile name="INFO_FILE" fileName="logs/spring-boot-demo-log4j2/info.log" filePattern="${INFO_FILE_PATTERN}" >
+            <!-- 过滤器 -->
+            <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!-- 日志输出格式 -->
+            <PatternLayout pattern="${LOG_PATTERN}" charset="UTF-8"/>
+            <!-- 滚动策略when -->
+            <Policies>
+                <!-- 每天生成一个日志文件 -->
+                <!-- TimeBasedTriggeringPolicy 基于时间的触发策略。该策略主要是完成周期性的log文件封存工作。有两个参数：
+                interval，integer型，指定两次封存动作之间的时间间隔。
+                单位:以日志的命名精度来确定单位，比如yyyy-MM-dd-HH 单位为小时，yyyy-MM-dd-HH-mm 单位为分钟 -->
+                <!-- 关键点在于filePattern后的日期格式，以及TimeBasedTriggeringPolicy的interval，日期格式精确到哪一位，interval也精确到哪一个单位  -->
+                <!-- modulate=true，则封存时间将以0点为边界进行偏移计算 -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="false"/>
+                <!-- SizeBasedTriggeringPolicy（表示单个文件最大多少容量）结合在一起，非常有用-->
+                <!-- 每到 ${SPLIT_SIZE} 体积，生成日志文件 -->
+                <SizeBasedTriggeringPolicy size="${SPLIT_SIZE}"/>
+            </Policies>
+            <!-- 滚动策略how -->
+            <!-- DefaultRolloverStrategy max="50"表示压缩包，最多保留50个,超过了会覆盖之前的 -->
+            <DefaultRolloverStrategy max="${ROLLING_COUNT}"/>
+        </RollingRandomAccessFile>
+        <!-- ERROR级别 -->
+        <RollingRandomAccessFile name="ERROR_FILE" fileName="logs/spring-boot-demo-log4j2/error.log" filePattern="${ERROR_FILE_PATTERN}" >
+            <Filters>
+                <!-- 从大到小：error, warn, info, debug, trace -->
+                <LevelRangeFilter minLevel="error" maxLevel="error" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+            <PatternLayout pattern="${LOG_PATTERN}" charset="UTF-8"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="false"/>
+                <SizeBasedTriggeringPolicy size="${SPLIT_SIZE}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${ROLLING_COUNT}" />
+        </RollingRandomAccessFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="INFO_FILE" />
+            <AppenderRef ref="ERROR_FILE" />
+        </Root>
+    </Loggers>
+</Configuration>
