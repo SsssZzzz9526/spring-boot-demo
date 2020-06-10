@@ -1,0 +1,219 @@
+<!-- scan:是否开启配置文件定时扫描 scanPeriod:定时扫描间隔时间(秒) debug:是否输出logback自身的日志信息 -->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!-- include标签 引入其他配置文件 -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <!--
+    property标签 定义变量
+    定义变量后，可以使"${}"来使用变量 引用变量时可指定默认值 ${name:defaultValue}
+    name:变量名
+    value:值
+    file:引用的外部文件
+    scope:作用域
+        - local 配置文件内有效
+        - context 应用内有效
+        - system JVM内有效
+    -->
+<!--    <property scope="" name="" value="" file=""/>-->
+    <property name="FILE_ERROR_PATTERN"
+              value="${FILE_LOG_PATTERN:-%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} %file:%line: %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+
+    <!--
+    springProperty标签 结合spring框架使用 读取application.yml中的内容
+    source:application.yml中的变量名
+    defaultValue:默认值
+    -->
+<!--    <springProperty scope="" name="" source="" defaultValue=""/>-->
+
+    <!--
+    appender标签 配置日志打印的方式
+        - ConsoleAppender 控制台
+        - FileAppender 文件
+        - RollingFileAppender 可配置滚动策略的文件
+    name:名称
+    class:具体执行类
+    -->
+    <!-- 默认的控制台日志输出，一般用于开发/测试环境 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+         <!--
+         filter标签 日志过滤级别
+         class: 具体过滤器
+            - LevelFilter
+                级别过滤器，根据日志级别进行过滤。如果日志级别等于配置级别，
+                过滤器会根据onMath(用于配置符合过滤条件的操作) 和
+                onMismatch(用于配置不符合过滤条件的操作)接收或拒绝日志。
+                - onMath
+                    - NEUTRAL 不做处理 放行
+                    - ACCEPT 处理 不放行
+                    - DENY 拒绝 不放行
+                - onMismatch
+            - ThresholdFilter
+                临界值过滤器，过滤掉低于指定临界值的日志。
+                当日志级别等于或高于临界值时，过滤器返回NEUTRAL；当日志级别低于临界值时，日志会被拒绝。
+         -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+        </filter>
+        <!--
+        encoder标签 配置日志打印的格式和编码方式
+        class:具体的执行类 默认且只有PatternLayoutEncoder
+        -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!-- Pattern标签 配置日志格式 -->
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <!-- charset标签 配置编码方式 -->
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="SQL_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!-- Pattern标签 配置日志格式 -->
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <!-- charset标签 配置编码方式 -->
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- INFO级别的文件日志输出 用于生产环境 -->
+    <appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 指定是否以追加的方式输出 -->
+        <append>true</append>
+        <!--如果只是想要 Info 级别的日志，只是过滤 info 还是会输出 Error 日志，因为 Error 的级别高， 所以我们使用下面的策略，可以避免输出 Error 的日志-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!--过滤 Error-->
+            <level>ERROR</level>
+            <!--匹配到就禁止-->
+            <onMatch>DENY</onMatch>
+            <!--没有匹配到就允许-->
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+        <!--
+        日志名称，如果没有File 属性，那么只会使用FileNamePattern的文件路径规则如果同时有<File>和<FileNamePattern>，
+        那么当天日志是<File>，明天会自动把今天的日志改名为今天的日期。即，<File> 的日志都是当天的。
+        <File>logs/info.spring-boot-demo-logback.log</File>
+        -->
+        <!--
+        滚动策略
+            - TimeBasedRollingPolicy
+            - FixedWindowRollingPolicy
+        -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--文件路径,定义了日志的切分方式——把每一天的日志归档到一个文件中,以防止日志填满整个磁盘空间-->
+            <FileNamePattern>logs/spring-boot-demo-logback/info.created_on_%d{yyyy-MM-dd}.part_%i.log</FileNamePattern>
+            <!--只保留最近90天的日志-->
+            <maxHistory>90</maxHistory>
+            <!--用来指定日志文件的上限大小，那么到了这个值，就会删除旧的日志-->
+            <!--<totalSizeCap>1GB</totalSizeCap>-->
+            <!--
+            滚动触发策略
+                - SizeAndTimeBasedFNATP
+                - SizeBasedTriggeringPolicy
+            -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- maxFileSize:这是活动文件的大小，默认值是10MB,本篇设置为1KB，只是为了演示 -->
+                <maxFileSize>2MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <!--<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">-->
+        <!--<maxFileSize>1KB</maxFileSize>-->
+        <!--</triggeringPolicy>-->
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset> <!-- 此处设置字符集 -->
+        </encoder>
+    </appender>
+
+    <!-- INFO级别的文件日志输出 用于生产环境 -->
+    <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--如果只是想要 Error 级别的日志，那么需要过滤一下，默认是 info 级别的，ThresholdFilter-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>Error</level>
+        </filter>
+        <!--日志名称，如果没有File 属性，那么只会使用FileNamePattern的文件路径规则如果同时有<File>和<FileNamePattern>，
+        那么当天日志是<File>，明天会自动把今天的日志改名为今天的日期。即，<File> 的日志都是当天的。-->
+        <!--<File>logs/error.spring-boot-demo-logback.log</File>-->
+        <!--滚动策略，按照时间滚动 TimeBasedRollingPolicy-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--文件路径,定义了日志的切分方式——把每一天的日志归档到一个文件中,以防止日志填满整个磁盘空间-->
+            <FileNamePattern>logs/spring-boot-demo-logback/error.created_on_%d{yyyy-MM-dd}.part_%i.log</FileNamePattern>
+            <!--只保留最近90天的日志-->
+            <maxHistory>90</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- maxFileSize:这是活动文件的大小，默认值是10MB,本篇设置为1KB，只是为了演示 -->
+                <maxFileSize>2MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_ERROR_PATTERN}</pattern>
+            <charset>UTF-8</charset> <!-- 此处设置字符集 -->
+        </encoder>
+    </appender>
+
+    <!--
+    root标签 根logger 配置默认打印方式
+    level:日志级别
+        - ERROR
+        - WARN
+        - INFO
+        - DEBUG
+        - TRACE
+    -->
+<!--    <root level="info">-->
+<!--        &lt;!&ndash; appender-ref标签 指定appender &ndash;&gt;-->
+<!--        <appender-ref ref="CONSOLE"/>-->
+<!--    </root>-->
+
+    <!--
+    记录器
+    name: 指定包/类名
+    level: 指定级别
+    additivity: 是否向上级logger传递打印信息 默认是true
+    -->
+<!--    <logger name="com.fyz.log4j2.controller"-->
+<!--            level="info" additivity="false">-->
+<!--        <appender-ref ref="CONSOLE"/>-->
+<!--        <appender-ref ref="FILE_INFO"/>-->
+<!--        <appender-ref ref="FILE_ERROR"/>-->
+<!--    </logger>-->
+<!--    <logger name="com.fyz.log4j2.service"-->
+<!--            level="info" additivity="false">-->
+<!--        <appender-ref ref="CONSOLE"/>-->
+<!--        <appender-ref ref="FILE_INFO"/>-->
+<!--        <appender-ref ref="FILE_ERROR"/>-->
+<!--    </logger>-->
+
+    <!--
+    springProfile 按环境配置打印信息
+    -->
+    <!--开发环境:打印控制台-->
+    <springProfile name="dev">
+        <root level="info">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <!--测试环境:打印控制台-->
+    <springProfile name="test">
+        <!-- 打印sql -->
+        <logger name="com.fyz.orm.jpa.repository"
+                level="debug" additivity="false">
+            <appender-ref ref="SQL_CONSOLE"/>
+        </logger>
+        <logger name="org.hibernate.SQL"
+                level="debug" additivity="false">
+            <appender-ref ref="SQL_CONSOLE"/>
+        </logger>
+        <root level="info">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <!-- 生产环境:打印文件 -->
+    <springProfile name="prod">
+        <root level="info">
+            <appender-ref ref="FILE_INFO"/>
+            <appender-ref ref="FILE_ERROR"/>
+        </root>
+    </springProfile>
+</configuration>
