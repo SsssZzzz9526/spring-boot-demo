@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="spring-boot-demo-log4j2" />
+        <module name="spring-boot-actuator" />
+        <module name="spring-boot-demo-helloworld" />
+        <module name="spring-boot-demo-properties" />
+        <module name="spring-boot-demo-admin-server" />
+        <module name="spring-boot-demo-admin-client" />
+        <module name="spring-boot-demo-cache-redis-cluster" />
+        <module name="spring-boot-demo-logback" />
+        <module name="spring-boot-demo-log-aop" />
+        <module name="spring-boot-demo-cache-redis-sentinel" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="spring-boot-actuator" target="1.8" />
+      <module name="spring-boot-demo" target="1.8" />
+      <module name="spring-boot-demo-admin" target="1.8" />
+      <module name="spring-boot-demo-admin-client" target="1.8" />
+      <module name="spring-boot-demo-admin-server" target="1.8" />
+      <module name="spring-boot-demo-cache-redis-cluster" target="1.8" />
+      <module name="spring-boot-demo-cache-redis-sentinel" target="1.8" />
+      <module name="spring-boot-demo-helloworld" target="1.8" />
+      <module name="spring-boot-demo-log-aop" target="1.8" />
+      <module name="spring-boot-demo-log4j2" target="1.8" />
+      <module name="spring-boot-demo-logback" target="1.8" />
+      <module name="spring-boot-demo-properties" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

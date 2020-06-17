@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-actuator/spring-boot-actuator.iml" filepath="$PROJECT_DIR$/spring-boot-actuator/spring-boot-actuator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-demo.iml" filepath="$PROJECT_DIR$/spring-boot-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-demo-admin/spring-boot-demo-admin.iml" filepath="$PROJECT_DIR$/spring-boot-demo-admin/spring-boot-demo-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-demo-admin/spring-boot-demo-admin-client/spring-boot-demo-admin-client.iml" filepath="$PROJECT_DIR$/spring-boot-demo-admin/spring-boot-demo-admin-client/spring-boot-demo-admin-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-demo-admin/spring-boot-demo-admin-server/spring-boot-demo-admin-server.iml" filepath="$PROJECT_DIR$/spring-boot-demo-admin/spring-boot-demo-admin-server/spring-boot-demo-admin-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-demo-cache-redis-cluster/spring-boot-demo-cache-redis-cluster.iml" filepath="$PROJECT_DIR$/spring-boot-demo-cache-redis-cluster/spring-boot-demo-cache-redis-cluster.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-demo-cache-redis-sentinel/spring-boot-demo-cache-redis-sentinel.iml" filepath="$PROJECT_DIR$/spring-boot-demo-cache-redis-sentinel/spring-boot-demo-cache-redis-sentinel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-demo-helloworld/spring-boot-demo-helloworld.iml" filepath="$PROJECT_DIR$/spring-boot-demo-helloworld/spring-boot-demo-helloworld.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-demo-log-aop/spring-boot-demo-log-aop.iml" filepath="$PROJECT_DIR$/spring-boot-demo-log-aop/spring-boot-demo-log-aop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-demo-log4j2/spring-boot-demo-log4j2.iml" filepath="$PROJECT_DIR$/spring-boot-demo-log4j2/spring-boot-demo-log4j2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-demo-logback/spring-boot-demo-logback.iml" filepath="$PROJECT_DIR$/spring-boot-demo-logback/spring-boot-demo-logback.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-demo-properties/spring-boot-demo-properties.iml" filepath="$PROJECT_DIR$/spring-boot-demo-properties/spring-boot-demo-properties.iml" />
+    </modules>
+  </component>
+</project>

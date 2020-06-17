@@ -1,0 +1,18 @@
+spring:
+  redis:
+    cluster:
+      max-redirects: 5
+      nodes:
+        - redis-master-1:7001
+        - redis-master-2:7002
+        - redis-master-3:7003
+        - redis-slave-1:8001
+        - redis-slave-2:8002
+        - redis-slave-3:8003
+    timeout: 5000ms
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1ms
+        min-idle: 0

@@ -15,6 +15,8 @@
         <module>spring-boot-demo-logback</module>
         <module>spring-boot-demo-log4j2</module>
         <module>spring-boot-demo-log-aop</module>
+        <module>spring-boot-demo-cache-redis-sentinel</module>
+        <module>spring-boot-demo-cache-redis-cluster</module>
     </modules>
     <packaging>pom</packaging>
 
