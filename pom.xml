@@ -17,6 +17,9 @@
         <module>spring-boot-demo-log-aop</module>
         <module>spring-boot-demo-cache-redis-sentinel</module>
         <module>spring-boot-demo-cache-redis-cluster</module>
+        <module>spring-boot-demo-orm-jdbc</module>
+        <module>spring-boot-demo-exception-handler</module>
+        <module>spring-boot-demo-orm-jpa</module>
     </modules>
     <packaging>pom</packaging>
 

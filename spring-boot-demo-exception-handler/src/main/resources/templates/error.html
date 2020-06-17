@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ERROR</title>
+</head>
+<body>
+
+<h1>统一异常处理</h1>
+<table class="layui-table">
+    <tr th:each="entry,item:${data}">
+        <td th:text="${item.index} + 1"></td>
+        <td th:text="${entry.key}"></td><!-- key-->
+        <td th:text="${entry.value}"></td><!-- value-->
+    </tr>
+</table>
+</body>
+</html>
